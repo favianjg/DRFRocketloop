@@ -12,5 +12,5 @@ def send_mail_task(recipients, subject, context):
         from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=recipients,
         fail_silently=False,
-        html_message=render_template(f'{template}.html', context)
+        html_message=context
     )
