@@ -17,7 +17,7 @@ class Todos(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100, blank=True, default='nonametodo')
     done = models.BooleanField(default=False)
-    boards = models.ForeignKey(Boards, related_name='todos', on_delete=models.CASCADE)
+    board = models.ForeignKey(Boards, related_name='todos', on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['title']
