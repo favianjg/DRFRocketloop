@@ -18,18 +18,6 @@ class Todos(models.Model):
     title = models.CharField(max_length=100, blank=True, default='nonametodo')
     done = models.BooleanField(default=False)
     boards = models.ForeignKey(Boards, related_name='todos', on_delete=models.CASCADE)
-    highlighted = models.TextField()
 
     class Meta:
         ordering = ['title']
-
-    def save(self, *args, **kwargs):
-        """
-        Use the `pygments` library to create a highlighted HTML
-        representation of the code snippet.
-        """
-        options = {'title': self.title} if self.title else {}
-        formatter = HtmlFormatter(created=self.created,
-                                  full=True, **options)
-        self.highlighted = highlight(self.title, formatter)
-        super(Todos, self).save(*args, **kwargs)
