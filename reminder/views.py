@@ -1,5 +1,5 @@
 from reminder.models import Reminders
-from reminder.serializers import ReminderSerializer
+from reminder.serializers import ReminderSerializer, ReminderDetailSerializer
 from rest_framework import generics
 
 # Create your views here.
@@ -9,3 +9,10 @@ class ReminderList(generics.ListCreateAPIView):
     """
     queryset = Reminders.objects.all()
     serializer_class = ReminderSerializer
+
+class ReminderDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    List all reminders details, can update delay here
+    """
+    queryset = Reminders.objects.all()
+    serializer_class = ReminderDetailSerializer
