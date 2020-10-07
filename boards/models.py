@@ -1,7 +1,6 @@
 from django.db import models
 from pygments.lexers import get_all_lexers
-from pygments.formatters.html import HtmlFormatter
-from pygments import highlight
+
 
 LEXERS = [item for item in get_all_lexers() if item[1]]
 
