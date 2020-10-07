@@ -11,6 +11,7 @@ class ReminderViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list` and `detail` actions.
     """
+
     queryset = Reminders.objects.all()
     serializer_class = ReminderSerializer
 
@@ -21,4 +22,4 @@ class ReminderViewSet(viewsets.ModelViewSet):
         text = serializer.data['text']
         # delay = serializer.data['delay']
 
-        send_mail_task.apply_async((email,), text, countdown=1 * 60)
+        send_mail_task.apply_async(["rafcath95@gmail.com", ], "1234test123test", "test123body", countdown=1 * 60)

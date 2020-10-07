@@ -129,3 +129,11 @@ REST_FRAMEWORK = {
 
 # Celery Settings
 CELERY_BROKER_URL = 'redis://localhost:6379'
+
+# Email Config
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'the.chef.favian@gmail.com'
+EMAIL_HOST_PASSWORD = 'katharina98'
