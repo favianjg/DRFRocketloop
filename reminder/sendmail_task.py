@@ -1,6 +1,10 @@
 from django.conf import settings
 from django.core.mail import send_mail
 
+from DRFRocketloop.celery import app
+
+
+@app.task
 def send_mail_task(recipients, subject, context):
     send_mail(
         subject=subject,
