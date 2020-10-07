@@ -8,7 +8,7 @@ class Boards(models.Model):
     name = models.CharField(max_length=100, blank=True, default='nonameboard')
 
     class Meta:
-        ordering = ['created']
+        ordering = ['name']
 
 class Todos(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -17,4 +17,4 @@ class Todos(models.Model):
     done = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['created']
+        ordering = ['title']
