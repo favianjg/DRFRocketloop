@@ -1,5 +1,7 @@
 from rest_framework import serializers
+
 from boards.models import Boards, Todos
+
 
 class BoardSerializer(serializers.ModelSerializer):
    todos_count = serializers.SerializerMethodField()
@@ -11,8 +13,11 @@ class BoardSerializer(serializers.ModelSerializer):
         model = Boards
         fields = ['id', 'name', 'todos_count']
 
-class BoardDetailSerializer(serializers.ModelSerializer):
-   class Meta:
+
+class BoardDetailSerializer(serializers.HyperlinkedModelSerializer):
+    todos = serializers.HyperlinkedRelatedField(many=True, view_name='todosdetail', read_only=True)
+
+    class Meta:
         model = Boards
         fields = ['id', 'name', 'todos']
 

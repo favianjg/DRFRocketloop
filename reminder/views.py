@@ -1,6 +1,8 @@
+from rest_framework import generics
+
 from reminder.models import Reminders
 from reminder.serializers import ReminderSerializer, ReminderDetailSerializer
-from rest_framework import generics
+
 
 # Create your views here.
 class ReminderList(generics.ListCreateAPIView):
