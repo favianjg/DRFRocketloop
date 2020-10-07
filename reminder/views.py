@@ -1,20 +1,24 @@
-from rest_framework import generics
+from rest_framework import viewsets
+from rest_framework.decorators import action
 
 from reminder.models import Reminders
-from reminder.serializers import ReminderSerializer, ReminderDetailSerializer
+from reminder.sendmail_task import send_mail_task
+from reminder.serializers import ReminderSerializer
 
 
 # Create your views here.
-class ReminderList(generics.ListCreateAPIView):
+class ReminderViewSet(viewsets.ModelViewSet):
     """
-    List all reminders, or create a new reminder.
+    This viewset automatically provides `list` and `detail` actions.
     """
     queryset = Reminders.objects.all()
     serializer_class = ReminderSerializer
 
-class ReminderDetail(generics.RetrieveUpdateDestroyAPIView):
-    """
-    List all reminders details, can update delay here
-    """
-    queryset = Reminders.objects.all()
-    serializer_class = ReminderDetailSerializer
+    @action(detail=True, methods=['post', 'put'])
+    def send_email(self, request, *args, **kwargs):
+        serializer = ReminderSerializer(data=request.data)
+        email = serializer.data['email']
+        text = serializer.data['text']
+        # delay = serializer.data['delay']
+
+        send_mail_task.apply_async((email,), text, countdown=1 * 60)
