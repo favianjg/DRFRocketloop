@@ -18,29 +18,29 @@ class ReminderViewSet(viewsets.ModelViewSet):
     serializer_class = ReminderSerializer
 
     def perform_create(self, serializer):
-        serializer.is_valid()
-        validatedData = serializer.validated_data
-        email = validatedData.get('email')
-        subject = "Reminder from DRFRocketLoop"
-        text = validatedData.get('text')
-        minute = validatedData.get('delay')
+        if serializer.is_valid():
+            validatedData = serializer.validated_data
+            email = validatedData.get('email')
+            subject = "Reminder from DRFRocketLoop"
+            text = validatedData.get('text')
+            minute = validatedData.get('delay')
 
-        my_tz = timezone('Europe/Berlin')
+            my_tz = timezone('Europe/Berlin')
 
-        send_mail_task.apply_async(([email], subject, text),
-                                   eta=my_tz.localize(datetime.now()) + timedelta(seconds=minute * 20))
-        serializer.save()
+            send_mail_task.apply_async(([email], subject, text),
+                                       eta=my_tz.localize(datetime.now()) + timedelta(seconds=minute * 20))
+            serializer.save()
 
     def perform_update(self, serializer):
-        serializer.is_valid()
-        validatedData = serializer.validated_data
-        email = validatedData.get('email')
-        subject = "Reminder from DRFRocketLoop"
-        text = validatedData.get('text')
-        minute = validatedData.get('delay')
+        if serializer.is_valid():
+            validatedData = serializer.validated_data
+            email = validatedData.get('email')
+            subject = "Reminder from DRFRocketLoop"
+            text = validatedData.get('text')
+            minute = validatedData.get('delay')
 
-        my_tz = timezone('Europe/Berlin')
+            my_tz = timezone('Europe/Berlin')
 
-        send_mail_task.apply_async(([email], subject, text),
-                                   eta=my_tz.localize(datetime.now()) + timedelta(seconds=minute * 20))
-        serializer.save()
+            send_mail_task.apply_async(([email], subject, text),
+                                       eta=my_tz.localize(datetime.now()) + timedelta(seconds=minute * 20))
+            serializer.save()

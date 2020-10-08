@@ -3,25 +3,25 @@ from rest_framework import serializers
 from boards.models import Boards, Todos
 
 
-class BoardSerializer(serializers.ModelSerializer):
-   todos_count = serializers.SerializerMethodField()
+class BoardSerializer(serializers.HyperlinkedModelSerializer):
+    todos_count = serializers.SerializerMethodField()
 
-   def get_todos_count(self, obj):
-       return len(obj.todos.all())
+    def get_todos_count(self, obj):
+        return len(obj.todos.all())
 
-   class Meta:
+    class Meta:
         model = Boards
-        fields = ['id', 'name', 'todos_count']
-
+        fields = ['url', 'id', 'name', 'todos_count']
 
 class BoardDetailSerializer(serializers.HyperlinkedModelSerializer):
     todos = serializers.HyperlinkedRelatedField(many=True, view_name='todosdetail', read_only=True)
 
     class Meta:
         model = Boards
-        fields = ['id', 'name', 'todos']
+        fields = ['url', 'id', 'name', 'todos']
 
-class TodoSerializer(serializers.ModelSerializer):
+
+class TodoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Todos
-        fields = ['id', 'created', 'updated', 'title', 'done', 'board']
+        fields = ['url', 'id', 'created', 'updated', 'title', 'done', 'board']
