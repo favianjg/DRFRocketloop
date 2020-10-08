@@ -1,5 +1,7 @@
+from datetime import datetime, timedelta
+
+from pytz import timezone
 from rest_framework import viewsets
-from rest_framework.decorators import action
 
 from reminder.models import Reminders
 from reminder.sendmail_task import send_mail_task
@@ -15,11 +17,26 @@ class ReminderViewSet(viewsets.ModelViewSet):
     queryset = Reminders.objects.all()
     serializer_class = ReminderSerializer
 
-    @action(detail=True, methods=['post', 'put'])
-    def send_email(self, request, *args, **kwargs):
-        serializer = ReminderSerializer(data=request.data)
-        email = serializer.data['email']
-        text = serializer.data['text']
-        # delay = serializer.data['delay']
+    def perform_create(self, serializer):
+        serializer.is_valid()
+        validatedData = serializer.validated_data
+        email = validatedData.get('email')
+        subject = "Reminder from DRFRocketLoop"
+        text = validatedData.get('text')
 
-        send_mail_task.apply_async(["rafcath95@gmail.com", ], "1234test123test", "test123body", countdown=1 * 60)
+        my_tz = timezone('Europe/Berlin')
+
+        send_mail_task.apply_async(([email], subject, text), eta=my_tz.localize(datetime.now()) + timedelta(seconds=20))
+        serializer.save()
+
+    def perform_update(self, serializer):
+        serializer.is_valid()
+        validatedData = serializer.validated_data
+        email = validatedData.get('email')
+        subject = "Reminder from DRFRocketLoop"
+        text = validatedData.get('text')
+
+        my_tz = timezone('Europe/Berlin')
+
+        send_mail_task.apply_async(([email], subject, text), eta=my_tz.localize(datetime.now()) + timedelta(seconds=20))
+        serializer.save()

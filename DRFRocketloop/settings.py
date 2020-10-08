@@ -128,7 +128,15 @@ REST_FRAMEWORK = {
 }
 
 # Celery Settings
-CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_ALWAYS_EAGER = False
+CELERY_BROKER_TRANSPORT_OPTIONS = {"max_retries": 3, "interval_start": 0, "interval_step": 0.2, "interval_max": 0.5}
+# CELERY_ENABLE_UTC = False
+# CELERY_TIMEZONE = "Europe/Berlin"
+CELERY_TRACK_STARTED = True
+CELERYD_LOG_FILE = os.path.join(
+    BASE_DIR, 'celery', 'logs')
+CELERYD_LOG_LEVEL = "INFO"
 
 # Email Config
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
