@@ -16,4 +16,4 @@ def send_mail_task(recipients, subject, context):
         fail_silently=False,
         html_message=context
     )
-    logger.info(f'Email sent')
+    logger.info('Email sent')

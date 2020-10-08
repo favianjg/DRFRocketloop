@@ -27,8 +27,10 @@ class ReminderViewSet(viewsets.ModelViewSet):
 
             my_tz = timezone('Europe/Berlin')
 
-            send_mail_task.apply_async(([email], subject, text),
-                                       eta=my_tz.localize(datetime.now()) + timedelta(seconds=seconds * 60))
+            send_mail_task.apply_async(
+                ([email], subject, text),
+                eta=(my_tz.localize(datetime.now())
+                     + timedelta(seconds=seconds * 60)))
             serializer.save()
 
     def perform_update(self, serializer):
@@ -41,6 +43,8 @@ class ReminderViewSet(viewsets.ModelViewSet):
 
             my_tz = timezone('Europe/Berlin')
 
-            send_mail_task.apply_async(([email], subject, text),
-                                       eta=my_tz.localize(datetime.now()) + timedelta(seconds=seconds * 60))
+            send_mail_task.apply_async(
+                ([email], subject, text),
+                eta=(my_tz.localize(datetime.now())
+                     + timedelta(seconds=seconds * 60)))
             serializer.save()
