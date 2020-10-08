@@ -3,7 +3,7 @@ from rest_framework import serializers
 from reminder.models import Reminders
 
 
-class ReminderSerializer(serializers.ModelSerializer):
-   class Meta:
+class ReminderSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
         model = Reminders
-        fields = ['id', 'email', 'text', 'delay']
+        fields = ['url', 'id', 'email', 'text', 'delay']

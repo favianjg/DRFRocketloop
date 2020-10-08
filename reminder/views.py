@@ -23,12 +23,12 @@ class ReminderViewSet(viewsets.ModelViewSet):
             email = validatedData.get('email')
             subject = "Reminder from DRFRocketLoop"
             text = validatedData.get('text')
-            minute = validatedData.get('delay')
+            seconds = validatedData.get('delay')
 
             my_tz = timezone('Europe/Berlin')
 
             send_mail_task.apply_async(([email], subject, text),
-                                       eta=my_tz.localize(datetime.now()) + timedelta(seconds=minute * 60))
+                                       eta=my_tz.localize(datetime.now()) + timedelta(seconds=seconds * 60))
             serializer.save()
 
     def perform_update(self, serializer):
@@ -37,10 +37,10 @@ class ReminderViewSet(viewsets.ModelViewSet):
             email = validatedData.get('email')
             subject = "Reminder from DRFRocketLoop"
             text = validatedData.get('text')
-            minute = validatedData.get('delay')
+            seconds = validatedData.get('delay')
 
             my_tz = timezone('Europe/Berlin')
 
             send_mail_task.apply_async(([email], subject, text),
-                                       eta=my_tz.localize(datetime.now()) + timedelta(seconds=minute * 60))
+                                       eta=my_tz.localize(datetime.now()) + timedelta(seconds=seconds * 60))
             serializer.save()
